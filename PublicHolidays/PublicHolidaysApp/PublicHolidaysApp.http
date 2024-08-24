@@ -1,0 +1,7 @@
+@PublicHolidaysApp_HostAddress = http://localhost:5199
+
+GET {{PublicHolidaysApp_HostAddress}}/weatherforecast/
+Accept: application/json
+# Content-Type: application/json
+
+###
