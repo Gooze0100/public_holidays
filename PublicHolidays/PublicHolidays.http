@@ -1,6 +1,0 @@
-@PublicHolidays_HostAddress = http://localhost:5124
-
-GET {{PublicHolidays_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

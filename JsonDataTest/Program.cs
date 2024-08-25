@@ -33,7 +33,7 @@ try
     string dayStatus = await requests.GetDayStatus("2024-08-15", "ltu");
     //Console.WriteLine(dayStatus);
 
-    await requests.GetMaximumNumberOfFreeDays(2023, "ltu");
+    await requests.GetMaximumNumberOfFreeDays(2024, "ltu");
 
 }
 catch(Exception ex)

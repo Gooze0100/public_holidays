@@ -1,22 +1,26 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
-//using System.Text.Json;
-using System.Text.Json.Nodes;
-
-namespace JsonDataTest
+namespace RequestsForData
 {
     public class Requests
     {
+        // pagalvoti kaip su situo padaryti
         HttpClient httpClient = new HttpClient();
         // panaudoti singleton irasyti i db?
-        public async Task<JArray> GetCountriesList()
+        public async Task<List<string>> GetCountriesList()
         {
-            JArray countries = null;
+            List<string> countries = new List<string>();
             try
             {
                 string response = await httpClient.GetStringAsync("https://kayaposoft.com/enrico/json/v3.0/getSupportedCountries");
-                countries = JArray.Parse(response);
+                JArray parsedCountriesData = JArray.Parse(response);
+                foreach (JToken countryData in parsedCountriesData)
+                {
+                    if (countryData != null)
+                    {
+                        countries.Add(countryData["fullName"].ToString());
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -89,14 +93,14 @@ namespace JsonDataTest
             int finalCounter = 0;
             int anotherCounter = 0;
 
-            foreach (JToken holiday in holidaysList) 
+            foreach (JToken holiday in holidaysList)
             {
                 int month = (int)holiday["date"]["month"];
                 int day = (int)holiday["date"]["day"];
                 int daysInMonth = DateTime.DaysInMonth(year, month);
                 DateOnly newDate = new DateOnly(year, month, day);
                 //anotherCounter++;
-                //Console.WriteLine(newDate);
+                Console.WriteLine(newDate);
 
                 // cia yra pradine date tai su ja reiktu tikrinti 
                 //Console.WriteLine(newDate.AddDays(-1));
@@ -111,20 +115,20 @@ namespace JsonDataTest
                 //    anotherCounter++;
                 //}
 
-                for (int j = 1; j <= 2; j++)
+                for (int j = 1; j <= 7; j++)
                 {
                     // jis prides jei bus kita data tipo jei bus is kitos savaitgalio o ne in sequence
                     // reikia pasiimti new date ir ji valdyti nes kitaip niekaip tipo dienas keisti nes 
                     if ((newDate.AddDays(-j).DayOfWeek == DayOfWeek.Saturday) || (newDate.AddDays(-j).DayOfWeek == DayOfWeek.Sunday))
                     {
-                        Console.WriteLine("ateina--");
+                        //Console.WriteLine("ateina--");
                         anotherCounter++;
                     }
                     else
                     {
                         break;
                     }
-                    
+
                 }
 
 
@@ -162,41 +166,41 @@ namespace JsonDataTest
                         }
 
 
-                            //if (finalCounter < anotherCounter) finalCounter = anotherCounter;
-                        
+                        //if (finalCounter < anotherCounter) finalCounter = anotherCounter;
+
                         //if (finalCounter < anotherCounter) finalCounter = anotherCounter;
                         // o tai gal sitam padaryti dar viena cikla? tipo uz situ dvieju ciklu tiesiog grazintu pirma ir paskutine data kur is eiles eina
 
 
-                            // 
-                            //break;
-                            if (day < daysInMonth)
+                        // 
+                        //break;
+                        if (day < daysInMonth)
+                        {
+                            if ((newDate.AddDays(i).DayOfWeek == DayOfWeek.Saturday) || (newDate.AddDays(i).DayOfWeek == DayOfWeek.Sunday))
                             {
-                                if ((newDate.AddDays(i).DayOfWeek == DayOfWeek.Saturday) || (newDate.AddDays(i).DayOfWeek == DayOfWeek.Sunday))
-                                {
-                                    //Console.WriteLine("ateina++");
-                                    ///anotherCounter++;
-                                }
+                                //Console.WriteLine("ateina++");
+                                ///anotherCounter++;
                             }
+                        }
 
-                            if (day > 1)
+                        if (day > 1)
+                        {
+                            if ((newDate.AddDays(-i).DayOfWeek == DayOfWeek.Saturday) || (newDate.AddDays(-i).DayOfWeek == DayOfWeek.Sunday))
                             {
-                                if ((newDate.AddDays(-i).DayOfWeek == DayOfWeek.Saturday) || (newDate.AddDays(-i).DayOfWeek == DayOfWeek.Sunday))
-                                {
-                                    //Console.WriteLine("ateina--");
-                                    //anotherCounter++;
-                                }
+                                //Console.WriteLine("ateina--");
+                                //anotherCounter++;
                             }
-                            //if (finalCounter < anotherCounter) finalCounter = anotherCounter;
+                        }
+                        //if (finalCounter < anotherCounter) finalCounter = anotherCounter;
 
-                            //cia vos ne kinda reikia atskiro ciklo
-                            // sitas pakeicia todel ir tiek nebesuskaiciuoja dienu
-                            //DateOnly newDatePlus = new DateOnly(year, month, day);
-                            //if ((newDatePlus.DayOfWeek == DayOfWeek.Saturday) || (newDatePlus.DayOfWeek == DayOfWeek.Sunday))
-                            //{
-                            //anotherCounter++;
-                            //}
-                        
+                        //cia vos ne kinda reikia atskiro ciklo
+                        // sitas pakeicia todel ir tiek nebesuskaiciuoja dienu
+                        //DateOnly newDatePlus = new DateOnly(year, month, day);
+                        //if ((newDatePlus.DayOfWeek == DayOfWeek.Saturday) || (newDatePlus.DayOfWeek == DayOfWeek.Sunday))
+                        //{
+                        //anotherCounter++;
+                        //}
+
                         //if (finalCounter < anotherCounter) finalCounter = anotherCounter;
                     }
                     else
@@ -206,8 +210,8 @@ namespace JsonDataTest
                         {
                             if ((newDate.AddDays(k).DayOfWeek == DayOfWeek.Saturday) || (newDate.AddDays(k).DayOfWeek == DayOfWeek.Sunday))
                             {
-                                //Console.WriteLine("ateina++");
-                                //anotherCounter++;
+                                Console.WriteLine("ateina++");
+                                anotherCounter++;
                             }
                             else
                             {
@@ -220,7 +224,7 @@ namespace JsonDataTest
 
                         //continue;
                     }
-                        //anotherCounter = 0;
+                    //anotherCounter = 0;
 
                 }
 
@@ -252,7 +256,7 @@ namespace JsonDataTest
 
                 if ((i + 1) < holidaysList.Count)
                 {
-                    monthAfter = (int)holidaysList[i + 1]["date"]["month"];  
+                    monthAfter = (int)holidaysList[i + 1]["date"]["month"];
                     dayAfter = (int)holidaysList[i + 1]["date"]["day"];
                 }
 
@@ -309,7 +313,7 @@ namespace JsonDataTest
                         }
                     }
 
-                    if(lastCounter < innerCounter) lastCounter = innerCounter;
+                    if (lastCounter < innerCounter) lastCounter = innerCounter;
                 }
                 else
                 {
@@ -322,5 +326,6 @@ namespace JsonDataTest
 
             return lastCounter;
         }
+
     }
 }
