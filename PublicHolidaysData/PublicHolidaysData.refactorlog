@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="09af70e4-4357-4363-a778-160e337aa200" ChangeDateTime="08/25/2024 14:42:21">
+    <Property Name="ElementName" Value="[dbo].[HolidaysList].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HolidaysList]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name_ENG" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5a8ef940-142e-48b0-964a-ce7e34ca1a26" ChangeDateTime="08/25/2024 14:42:33">
+    <Property Name="ElementName" Value="[dbo].[HolidaysList].[Name_ENG]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HolidaysList]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name_Default" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3928a643-5f3e-47c1-aa0f-4b04479d87ee" ChangeDateTime="08/25/2024 14:54:50">
+    <Property Name="ElementName" Value="[dbo].[Holidays].[Name_Default]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Holidays]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name_Origin" />
+  </Operation>
+</Operations>

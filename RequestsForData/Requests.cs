@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace RequestsForData
+namespace RequestsForData.Library
 {
     public class Requests
     {
