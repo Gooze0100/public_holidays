@@ -21,4 +21,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Name_Origin" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="f11075c6-1a07-4d00-8628-3cac7d5ed0a9" ChangeDateTime="08/25/2024 17:05:01">
+    <Property Name="ElementName" Value="[dbo].[Holidays].[Country]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Holidays]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CountryCode" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fc7c315e-6ad9-454a-9846-2669da45ffbd" ChangeDateTime="08/25/2024 17:05:18">
+    <Property Name="ElementName" Value="[dbo].[MaxNumbersOfFreeDays].[Country]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MaxNumbersOfFreeDays]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CountryCode" />
+  </Operation>
 </Operations>

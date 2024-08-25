@@ -1,6 +1,6 @@
 @PublicHolidaysApp_HostAddress = http://localhost:5218
 
-GET {{PublicHolidaysApp_HostAddress}}/weatherforecast/
+GET {{PublicHolidaysApp_HostAddress}}/
 Accept: application/json
 
 ###

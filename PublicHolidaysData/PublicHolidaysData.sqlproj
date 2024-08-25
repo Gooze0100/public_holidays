@@ -70,6 +70,14 @@
     <Build Include="dbo\Tables\Holidays.sql" />
     <Build Include="dbo\Tables\SpecificDateStatus.sql" />
     <Build Include="dbo\Tables\MaxNumbersOfFreeDays.sql" />
+    <Build Include="dbo\Stored Procedures\spGetCountries.sql" />
+    <Build Include="dbo\Stored Procedures\spGetHolidays.sql" />
+    <Build Include="dbo\Stored Procedures\spGetDayStatus.sql" />
+    <Build Include="dbo\Stored Procedures\spGetMaxDays.sql" />
+    <Build Include="dbo\Stored Procedures\spInsertIntoCountries.sql" />
+    <Build Include="dbo\Stored Procedures\spInsertIntoHolidays.sql" />
+    <Build Include="dbo\Stored Procedures\spInsertIntoSpecificDateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\spInsertIntoMaxNumberOfFreeDays.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PublicHolidaysData.refactorlog" />

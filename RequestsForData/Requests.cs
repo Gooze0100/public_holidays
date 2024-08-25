@@ -1,36 +1,52 @@
 ﻿using Newtonsoft.Json.Linq;
+using RequestsForData.Library.DataAccess;
 
 namespace RequestsForData.Library
 {
     public class Requests
     {
+
         // pagalvoti kaip su situo padaryti
         HttpClient httpClient = new HttpClient();
         // panaudoti singleton irasyti i db?
         public async Task<List<string>> GetCountriesList()
         {
-            List<string> countries = new List<string>();
-            try
+            CountriesData countriesData = new CountriesData();
+            List<string> listOfCountries = countriesData.GetCountries();
+
+            if(listOfCountries.Count <= 0)
             {
-                string response = await httpClient.GetStringAsync("https://kayaposoft.com/enrico/json/v3.0/getSupportedCountries");
-                JArray parsedCountriesData = JArray.Parse(response);
-                foreach (JToken countryData in parsedCountriesData)
+                List<string> countries = new List<string>();
+                // va cia reikia suvaryti i duomenu baze kai gausiu
+                //countriesData.SetCountry();
+                try
                 {
-                    if (countryData != null)
+                    string response = await httpClient.GetStringAsync("https://kayaposoft.com/enrico/json/v3.0/getSupportedCountries");
+                    JArray parsedCountriesData = JArray.Parse(response);
+                    foreach (JToken countryData in parsedCountriesData)
                     {
-                        countries.Add(countryData["fullName"].ToString());
+                        if (countryData != null)
+                        {
+                            countries.Add(countryData["fullName"].ToString());
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
 
-            return countries;
+                return countries;
+
+            }
+            else
+            {
+                return listOfCountries;
+            }
         }
 
-        public async Task<JArray> GetAllHolidaysForYears(string year, string country)
+        // padaryti kad butu sugrupuoti pagal menesi
+        public async Task<JArray> GetAllHolidaysForYears(string country, string year)
         {
             JArray allHolidaysForYears = null;
             try
@@ -46,7 +62,7 @@ namespace RequestsForData.Library
             return allHolidaysForYears;
         }
 
-        public async Task<string> GetDayStatus(string date, string country)
+        public async Task<string> GetDayStatus(string country, string date)
         {
             string dayStatus = String.Empty;
             try
@@ -79,8 +95,10 @@ namespace RequestsForData.Library
         }
 
         // perdaryti year to string
-        public async Task<int> GetMaximumNumberOfFreeDays(int year, string country)
+        public async Task<int> GetMaximumNumberOfFreeDays(string country, string year)
         {
+            Int32.TryParse(year, out int parsedYear);
+
             int lastCounter = 0;
             int innerCounter = 0;
 
@@ -97,8 +115,8 @@ namespace RequestsForData.Library
             {
                 int month = (int)holiday["date"]["month"];
                 int day = (int)holiday["date"]["day"];
-                int daysInMonth = DateTime.DaysInMonth(year, month);
-                DateOnly newDate = new DateOnly(year, month, day);
+                int daysInMonth = DateTime.DaysInMonth(parsedYear, month);
+                DateOnly newDate = new DateOnly(parsedYear, month, day);
                 //anotherCounter++;
                 Console.WriteLine(newDate);
 
@@ -245,10 +263,10 @@ namespace RequestsForData.Library
                 int day = (int)holidaysList[i]["date"]["day"];
 
                 // cia irgi padaryti kad kelis kartus to paties menesio netikrintu
-                int daysInMonth = DateTime.DaysInMonth(year, month);
+                int daysInMonth = DateTime.DaysInMonth(parsedYear, month);
                 int monthAfter = 0;
                 int dayAfter = 0;
-                DateOnly dateOnly = new DateOnly(year, month, day);
+                DateOnly dateOnly = new DateOnly(parsedYear, month, day);
                 //dateOnly.AddDays(1);
                 //string dayStatus = await GetDayStatus(dateOnly.ToString("yyyy-MM-dd"), country);
 
@@ -272,8 +290,8 @@ namespace RequestsForData.Library
                     if (day < daysInMonth)
                     {
                         // patikrinti del sito ar nereikia prasukti dar daugiau
-                        DateOnly newDatePlus = new DateOnly(year, month, day + 1);
-                        if (newDatePlus != new DateOnly(year, monthAfter, dayAfter))
+                        DateOnly newDatePlus = new DateOnly(parsedYear, month, day + 1);
+                        if (newDatePlus != new DateOnly(parsedYear, monthAfter, dayAfter))
                         {
                             //Console.WriteLine(newDatePlus);
                             //Console.WriteLine(new DateOnly(year, monthAfter, dayAfter));
@@ -293,8 +311,8 @@ namespace RequestsForData.Library
 
                     if (day > 1)
                     {
-                        DateOnly newDateMinus = new DateOnly(year, month, day - 1);
-                        if (newDateMinus != new DateOnly(year, monthAfter, dayAfter))
+                        DateOnly newDateMinus = new DateOnly(parsedYear, month, day - 1);
+                        if (newDateMinus != new DateOnly(parsedYear, monthAfter, dayAfter))
                         {
                             //Console.WriteLine(newDateMinus);
                             //Console.WriteLine(new DateOnly(year, monthAfter, dayAfter));

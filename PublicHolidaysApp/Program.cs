@@ -3,6 +3,10 @@ using RequestsForData.Library;
 using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddJsonFile("appsettings.development.json");
+builder.Configuration.AddUserSecrets<Program>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -21,11 +25,12 @@ WebApplication app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
+
 Requests requests = new Requests();
 // caching ir rate limmiting pasiziureti nes tipo kad neuzlaustu programos
 
+// Countries
 app.MapGet("api/countries",
     async () => await requests.GetCountriesList()
 ).WithOpenApi(
@@ -35,13 +40,14 @@ app.MapGet("api/countries",
        Description = "This endpoint returns Json array of countries full names",
    });
 
-app.MapGet("api/holidaysList/country/{country}/year/{year}",
-    (string country, string year) => new { Message = "hello world: " + year, country }
+// All Holidays
+app.MapGet("api/allHolidays/country/{country}/year/{year}",
+    async (string country, string year) => await requests.GetAllHolidaysForYears(country, year)
 ).WithOpenApi(
     operation => 
     {
-        operation.Summary = "You can get holidays list for specific country and year";
-        operation.Description = "This endpoint returns holidays list";
+        operation.Summary = "You can get all holidays for specific country and year";
+        operation.Description = "This endpoint returns all holidays";
         OpenApiParameter country = operation.Parameters[0];
         country.Description = "Enter Country name with ISO-3 standard";
         OpenApiParameter year = operation.Parameters[1];
@@ -49,20 +55,24 @@ app.MapGet("api/holidaysList/country/{country}/year/{year}",
         return operation;
     });
 
-app.MapGet("api/dayStatus/date/{date}",
-    (string date) => new { Message = "hello world: " + date }
+// Day Status
+app.MapGet("api/dayStatus/country/{country}/date/{date}",
+    async (string country, string date) => await requests.GetDayStatus(country, date)
 ).WithOpenApi(
     operation =>
     {
         operation.Summary = "Here you can get Day status";
         operation.Description = "This endpoint returns day status";
-        OpenApiParameter date = operation.Parameters[0];
+        OpenApiParameter country = operation.Parameters[0];
+        country.Description = "Enter Country name with ISO-3 standard";
+        OpenApiParameter date = operation.Parameters[1];
         date.Description = "Enter date with type \"yyyy-mm-dd\"";
         return operation;
     });
 
+// Maximum Number of Free Days
 app.MapGet("api/maximumNumberofFreeDays/country/{country}/year/{year}",
-    (string country, string year) => new { Message = "hello world: " + country }
+    async (string country, string year) => await requests.GetMaximumNumberOfFreeDays(country, year)
 ).WithOpenApi(
     operation =>
     {
