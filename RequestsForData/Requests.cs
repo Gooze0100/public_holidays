@@ -29,10 +29,9 @@ namespace RequestsForData.Library
                                 string countryCode = countryData["countryCode"].ToString();
                                 string country = countryData["fullName"].ToString();
                                 countriesData.SetCountry(countryCode, country);
+                                listOfCountries.Add(new { countryCode, country});
                             }
                         }
-
-                        listOfCountries = countriesData.GetCountries();
                     }
                 }
                 catch (Exception ex)
@@ -61,13 +60,25 @@ namespace RequestsForData.Library
                     {
                         foreach (JToken holiday in parsedAllHolidaysForYears)
                         {
-                            string month = holiday["date"]["month"].ToString();
-                            string day = holiday["date"]["day"].ToString();
-                            string nameOrigin = holiday["name"][0]["text"].ToString();
-                            string nameEng = holiday["name"][1]["text"].ToString();
-                            string holidayType = holiday["holidayType"].ToString();
+                            if (holiday != null)
+                            {
+                                // Very bad approach need to update DB types.
+                                string month = holiday["date"]["month"].ToString();
+                                if (month.Count() == 1)
+                                {
+                                    month = "0" + month;
+                                }
+                                string day = holiday["date"]["day"].ToString();
+                                if (day.Count() == 1)
+                                {
+                                    day = "0" + day;
+                                }
+                                string nameOrigin = holiday["name"][0]["text"].ToString();
+                                string nameEng = holiday["name"][1]["text"].ToString();
+                                string holidayType = holiday["holidayType"].ToString();
 
-                            holidaysData.SetHolidays(countryCode, year, month, day, nameOrigin, nameEng, holidayType);
+                                holidaysData.SetHolidays(countryCode, year, month, day, nameOrigin, nameEng, holidayType);
+                            }
                         }
 
                         IEnumerable<IGrouping<dynamic, dynamic>> groupedByMonth = holidaysData.GetHolidays(countryCode, year).GroupBy(h => h.Month);
@@ -78,35 +89,66 @@ namespace RequestsForData.Library
                 {
                     Console.WriteLine(ex);
                 }
-
             }
 
             return allHolidaysForYears;
         }
 
-        public async Task<string> GetDayStatus(string country, string date)
+        public async Task<List<dynamic>> GetDayStatus(string countryCode, string date)
         {
-            string dayStatus = String.Empty;
+            List<dynamic> dayStatus = new();
             try
             {
-                HttpClient httpClient = new();
-                // padaryti kad netirkintu sito jei jau surado kaip free day true
-                string responsePublicHoliday = await httpClient.GetStringAsync($"https://kayaposoft.com/enrico/json/v3.0/isPublicHoliday?date={date}&country={country}");
-                JObject publicHoliday = JObject.Parse(responsePublicHoliday);
+                HolidaysData holidaysData = new HolidaysData();
+                SpecificDateStatusData specificDateStatusData = new SpecificDateStatusData();
 
-                DateOnly.TryParse(date, out DateOnly parserdDate);
-                // galima sukeisti vietomis su dayofweek ir tada viduje dar vieno if padaryti jei nera nieko tada siuncia uzklausa, jei yra free day tada ja ir grazinti
-                if (publicHoliday["isPublicHoliday"] != null && (bool)publicHoliday["isPublicHoliday"] == true)
+                string year = date.Substring(0, 4);
+                List<dynamic> allHolidaysForYears = holidaysData.GetHolidays(countryCode, year);
+
+                if (allHolidaysForYears.Count > 0)
                 {
-                    dayStatus = "Public Holiday";
-                }
-                else if ((parserdDate.DayOfWeek == DayOfWeek.Saturday) || (parserdDate.DayOfWeek == DayOfWeek.Sunday))
-                {
-                    dayStatus = "Free day";
+                    foreach (dynamic holiday in allHolidaysForYears)
+                    {
+                        string newDate = $"{year}-{holiday.Month}-{holiday.Day}";
+                        if (date == newDate)
+                        {
+                            dayStatus.Add("Public Holiday");
+                            return dayStatus;
+                        }
+                    }
                 }
                 else
                 {
-                    dayStatus = "Workday";
+                    List<dynamic> specificDateStatus = specificDateStatusData.GetSpecificDateStatus(countryCode, date);
+
+                    if (specificDateStatus.Count > 0)
+                    {
+                        dayStatus = specificDateStatus;
+                        return dayStatus;
+                    }
+                }
+
+                HttpClient httpClient = new();
+                string responsePublicHoliday = await httpClient.GetStringAsync($"https://kayaposoft.com/enrico/json/v3.0/isPublicHoliday?date={date}&country={countryCode}");
+                JObject publicHoliday = JObject.Parse(responsePublicHoliday);
+                DateOnly.TryParse(date, out DateOnly parserdDate);
+                string month = date.Substring(5, 2);
+                string day = date.Substring(date.Length - 2);
+
+                if (publicHoliday["isPublicHoliday"] != null && (bool)publicHoliday["isPublicHoliday"] == true)
+                {
+                    specificDateStatusData.SetSpecificDateStatus(countryCode, year, month, day, "Public Holiday");
+                    dayStatus.Add("Public Holiday");
+                }
+                else if ((parserdDate.DayOfWeek == DayOfWeek.Saturday) || (parserdDate.DayOfWeek == DayOfWeek.Sunday))
+                {
+                    specificDateStatusData.SetSpecificDateStatus(countryCode, year, month, day, "Free day");
+                    dayStatus.Add("Free day");
+                }
+                else
+                {
+                    specificDateStatusData.SetSpecificDateStatus(countryCode, year, month, day, "Workday");
+                    dayStatus.Add("Workday");
                 }
             }
             catch (Exception ex)

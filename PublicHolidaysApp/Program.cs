@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "API Documentation For Holidays Data",
         Version = "v1",
-        Description = "Program uses kayaposoft API to write data in MSSQL database and reuse it"
+        Description = "Program uses kayaposoft API to write data in MSSQL database and reuse it. Use this link for ISO-3 country codes: https://www.nationsonline.org/oneworld/country_code_list.htm",
     });
     options.SchemaFilter<RemoveSchemas>();
 
