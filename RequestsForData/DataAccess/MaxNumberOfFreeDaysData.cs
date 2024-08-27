@@ -1,17 +1,16 @@
-﻿
-using RequestsForData.Library.Internal.DataAccess;
+﻿using RequestsForData.Library.Internal.DataAccess;
 
 namespace RequestsForData.Library.DataAccess
 {
     public class MaxNumberOfFreeDaysData
     {
-        public List<string> GetMaxNumberOfFreeDays(string countryCode, string year)
+        public List<dynamic> GetMaxNumberOfFreeDays(string countryCode, string year)
         {
             SqlDataAccess sqlAccess = new SqlDataAccess();
 
             var p = new { countryCode, year };
 
-            List<string> output = sqlAccess.LoadData<string, dynamic>("dbo.spGetMaxDays", p, "DefaultConnection");
+            List<dynamic> output = sqlAccess.LoadData<dynamic>("dbo.spGetMaxDays", p, "DefaultConnection");
 
             return output;
         }

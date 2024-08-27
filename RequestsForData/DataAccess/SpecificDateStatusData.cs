@@ -4,13 +4,13 @@ namespace RequestsForData.Library.DataAccess
 {
     public class SpecificDateStatusData
     {
-        public List<string> GetSpecificDateStatus(string countryCode, string date)
+        public List<dynamic> GetSpecificDateStatus(string countryCode, string date)
         {
             SqlDataAccess sqlAccess = new SqlDataAccess();
 
             var p = new { countryCode, date };
 
-            List<string> output = sqlAccess.LoadData<string, dynamic>("dbo.spGetDayStatus", p, "DefaultConnection");
+            List<dynamic> output = sqlAccess.LoadData<dynamic>("dbo.spGetDayStatus", p, "DefaultConnection");
 
             return output;
         }

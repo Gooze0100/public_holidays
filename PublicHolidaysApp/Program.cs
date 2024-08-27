@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using PublicHolidaysApp;
 using RequestsForData.Library;
 using System.Reflection;
 
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Description = "Program uses kayaposoft API to write data in MSSQL database and reuse it"
     });
+    options.SchemaFilter<RemoveSchemas>();
 
     string xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
@@ -28,8 +30,8 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 Requests requests = new Requests();
-// caching ir rate limmiting pasiziureti nes tipo kad neuzlaustu programos
 
+// Check caching and rate limiting
 // Countries
 app.MapGet("api/countries",
     async () => await requests.GetCountriesList()

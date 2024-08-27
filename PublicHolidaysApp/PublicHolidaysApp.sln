@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestsForData.Library", "
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PublicHolidaysData", "..\PublicHolidaysData\PublicHolidaysData.sqlproj", "{265D15B7-C803-4E95-A851-ED0F6293B105}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicHolidaysTests", "..\PublicHolidaysTests\PublicHolidaysTests.csproj", "{F2C36A4A-6625-430B-A43B-7FDB85092D6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{265D15B7-C803-4E95-A851-ED0F6293B105}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{265D15B7-C803-4E95-A851-ED0F6293B105}.Release|Any CPU.Build.0 = Release|Any CPU
 		{265D15B7-C803-4E95-A851-ED0F6293B105}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F2C36A4A-6625-430B-A43B-7FDB85092D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C36A4A-6625-430B-A43B-7FDB85092D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2C36A4A-6625-430B-A43B-7FDB85092D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2C36A4A-6625-430B-A43B-7FDB85092D6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

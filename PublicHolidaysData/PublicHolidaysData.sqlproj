@@ -58,12 +58,8 @@
     <Folder Include="Properties" />
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
-    <Folder Include="dbo\Views" />
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="PublishLocations" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="PublishLocations\PublicHolidaysData.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Countries.sql" />
@@ -78,8 +74,12 @@
     <Build Include="dbo\Stored Procedures\spInsertIntoHolidays.sql" />
     <Build Include="dbo\Stored Procedures\spInsertIntoSpecificDateStatus.sql" />
     <Build Include="dbo\Stored Procedures\spInsertIntoMaxNumberOfFreeDays.sql" />
+    <Build Include="dbo\Stored Procedures\spDeleteCountries.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="PublicHolidaysData.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="PublishLocations\PublicHolidaysData.publish.xml" />
   </ItemGroup>
 </Project>

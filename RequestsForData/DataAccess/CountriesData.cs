@@ -1,17 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
-using RequestsForData.Library.Internal.DataAccess;
-using System.Configuration;
+﻿using RequestsForData.Library.Internal.DataAccess;
+using System.Diagnostics.Metrics;
 
 namespace RequestsForData.Library.DataAccess
 {
     public class CountriesData
     {
-        public List<string> GetCountries()
+        public List<dynamic> GetCountries()
         {
             SqlDataAccess sqlAccess = new();
 
             // unit testing could benefit for this
-            List<string> output = sqlAccess.LoadData<string, dynamic>("dbo.spGetCountries", new {}, "DefaultConnection");
+            List<dynamic> output = sqlAccess.LoadData<dynamic>("dbo.spGetCountries", new {}, "DefaultConnection");
 
             return output;
         }
@@ -20,10 +19,16 @@ namespace RequestsForData.Library.DataAccess
         {
             SqlDataAccess sqlAccess = new();
 
-            // pabandyti nutrinti country code ir viena palikti
-            var p = new { countryCode = countryCode, country = country };
+            var p = new { countryCode,  country };
 
             sqlAccess.SaveData<dynamic>("dbo.spInsertIntoCountries", p, "DefaultConnection");
+        }
+
+        public void DeleteCountries()
+        {
+            SqlDataAccess sqlAccess = new();
+
+            sqlAccess.DeleteData("dbo.spDeleteCountries", "DefaultConnection");
         }
     }
 }

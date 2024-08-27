@@ -4,14 +4,14 @@ namespace RequestsForData.Library.DataAccess
 {
     public class HolidaysData
     {
-        public List<string> GetHolidays(string countryCode, string year)
+        public List<dynamic> GetHolidays(string countryCode, string year)
         {
             SqlDataAccess sqlAccess = new SqlDataAccess();
 
             var p = new { countryCode, year };
 
             // greiciausiai reikes sugrupuoti cia
-            List<string> output = sqlAccess.LoadData<string, dynamic>("dbo.spGetHolidays", p, "DefaultConnection");
+            List<dynamic> output = sqlAccess.LoadData<dynamic>("dbo.spGetHolidays", p, "DefaultConnection");
 
             return output;
         }

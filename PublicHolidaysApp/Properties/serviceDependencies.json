@@ -1,18 +1,16 @@
 {
   "dependencies": {
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:DefaultConnection",
+    "secrets1": {
+      "type": "secrets",
       "dynamicId": null
     },
     "mssql1": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:DefaultConn",
-      "dynamicId": null
+      "connectionId": "ConnectionStrings:PublicHoliday"
     },
-    "mssql3": {
+    "mssql2": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:New",
+      "connectionId": "ConnectionStrings:PublicHolidays",
       "dynamicId": null
     }
   }

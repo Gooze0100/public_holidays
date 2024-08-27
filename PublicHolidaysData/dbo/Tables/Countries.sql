@@ -6,4 +6,5 @@
     [CreatedDate] DATETIME2 NOT NULL DEFAULT getutcdate(), 
     [UpdatedDate] DATETIME2 NULL , 
     [DeletedDate] DATETIME2 NULL
+    --In theory we need to create Foreign key for other tables that information do not duplicate
 )

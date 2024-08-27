@@ -5,30 +5,73 @@ namespace RequestsForData.Library
 {
     public class Requests
     {
-
-        // pagalvoti kaip su situo padaryti
-        HttpClient httpClient = new HttpClient();
-        // panaudoti singleton irasyti i db?
-        public async Task<List<string>> GetCountriesList()
+        public async Task<List<dynamic>> GetCountriesList()
         {
-            CountriesData countriesData = new CountriesData();
-            List<string> listOfCountries = countriesData.GetCountries();
-
-            if(listOfCountries.Count <= 0)
+            CountriesData countriesData = new();
+            List<dynamic> listOfCountries = countriesData.GetCountries();
+            
+            if(listOfCountries.Count < 58)
             {
-                List<string> countries = new List<string>();
-                // va cia reikia suvaryti i duomenu baze kai gausiu
-                //countriesData.SetCountry();
                 try
                 {
+                    HttpClient httpClient = new();
                     string response = await httpClient.GetStringAsync("https://kayaposoft.com/enrico/json/v3.0/getSupportedCountries");
-                    JArray parsedCountriesData = JArray.Parse(response);
-                    foreach (JToken countryData in parsedCountriesData)
+                    JArray parsedCountries = JArray.Parse(response);
+
+                    if (parsedCountries.HasValues)
                     {
-                        if (countryData != null)
+                        countriesData.DeleteCountries();
+
+                        foreach (JToken countryData in parsedCountries)
                         {
-                            countries.Add(countryData["fullName"].ToString());
+                            if (countryData != null)
+                            {
+                                string countryCode = countryData["countryCode"].ToString();
+                                string country = countryData["fullName"].ToString();
+                                countriesData.SetCountry(countryCode, country);
+                            }
                         }
+
+                        listOfCountries = countriesData.GetCountries();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+
+            return listOfCountries;
+        }
+
+        public async Task<List<dynamic>> GetAllHolidaysForYears(string countryCode, string year)
+        {
+            HolidaysData holidaysData = new HolidaysData();
+            List<dynamic> allHolidaysForYears = holidaysData.GetHolidays(countryCode, year);
+
+            if (allHolidaysForYears.Count <= 0)
+            {
+                try
+                {
+                    HttpClient httpClient = new();
+                    string response = await httpClient.GetStringAsync($"https://kayaposoft.com/enrico/json/v3.0/getHolidaysForYear?year={year}&country={countryCode}");
+                    JArray parsedAllHolidaysForYears = JArray.Parse(response);
+
+                    if(parsedAllHolidaysForYears.HasValues)
+                    {
+                        foreach (JToken holiday in parsedAllHolidaysForYears)
+                        {
+                            string month = holiday["date"]["month"].ToString();
+                            string day = holiday["date"]["day"].ToString();
+                            string nameOrigin = holiday["name"][0]["text"].ToString();
+                            string nameEng = holiday["name"][1]["text"].ToString();
+                            string holidayType = holiday["holidayType"].ToString();
+
+                            holidaysData.SetHolidays(countryCode, year, month, day, nameOrigin, nameEng, holidayType);
+                        }
+
+                        IEnumerable<IGrouping<dynamic, dynamic>> groupedByMonth = holidaysData.GetHolidays(countryCode, year).GroupBy(h => h.Month);
+                        allHolidaysForYears = groupedByMonth as List<dynamic>;
                     }
                 }
                 catch (Exception ex)
@@ -36,27 +79,6 @@ namespace RequestsForData.Library
                     Console.WriteLine(ex);
                 }
 
-                return countries;
-
-            }
-            else
-            {
-                return listOfCountries;
-            }
-        }
-
-        // padaryti kad butu sugrupuoti pagal menesi
-        public async Task<JArray> GetAllHolidaysForYears(string country, string year)
-        {
-            JArray allHolidaysForYears = null;
-            try
-            {
-                string response = await httpClient.GetStringAsync($"https://kayaposoft.com/enrico/json/v3.0/getHolidaysForYear?year={year}&country={country}");
-                allHolidaysForYears = JArray.Parse(response);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
             }
 
             return allHolidaysForYears;
@@ -67,6 +89,7 @@ namespace RequestsForData.Library
             string dayStatus = String.Empty;
             try
             {
+                HttpClient httpClient = new();
                 // padaryti kad netirkintu sito jei jau surado kaip free day true
                 string responsePublicHoliday = await httpClient.GetStringAsync($"https://kayaposoft.com/enrico/json/v3.0/isPublicHoliday?date={date}&country={country}");
                 JObject publicHoliday = JObject.Parse(responsePublicHoliday);
@@ -97,12 +120,13 @@ namespace RequestsForData.Library
         // perdaryti year to string
         public async Task<int> GetMaximumNumberOfFreeDays(string country, string year)
         {
+            HttpClient httpClient = new();
             Int32.TryParse(year, out int parsedYear);
 
             int lastCounter = 0;
             int innerCounter = 0;
 
-            JArray holidaysList = await GetAllHolidaysForYears(year.ToString(), country);
+            List<dynamic> holidaysList = await GetAllHolidaysForYears(year.ToString(), country);
             //bool isYearParsed = Int32.TryParse(year, null, out int parsedYear);
 
             //Console.WriteLine("Holidays count: " + holidaysList.Count);

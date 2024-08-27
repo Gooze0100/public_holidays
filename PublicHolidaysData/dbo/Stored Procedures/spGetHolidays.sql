@@ -5,8 +5,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT Year, Month, Day, Name_Origin, Name_ENG
+	SELECT Month, Day, Name_Origin, Name_ENG, HolidayType
 	FROM dbo.Holidays
 	WHERE CountryCode = @countryCode AND Year = @year
-	--GROUP BY Month nera agreagated todel neapima
+	ORDER BY Month
 END
