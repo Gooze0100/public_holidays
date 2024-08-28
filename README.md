@@ -11,23 +11,26 @@ It uses three endpoints for:
 
 ## Installation
 
-TODO
+- Add MSSQL database "DefaultConnection" string to user secrets then Publish PublicHolidaysData project.
+- Start the application in Docker.
 
 ## User Guide
 
-TODO
+In Swagger when application is deployes you can see four endpoints and what parameters to enter to get that data.
 
 ## Configuration
 
-TODO
+MSSQL server is used localy. Not implemented in Docker as it should be.
 
 ## Guidlines for future improvements
 
-Use foreign keys to countries and other tables because it is same data.
-Implement better unit tests.
-SQL write stored procedures for updates, and update values if not found for countries.
-SQL table column types could be changed, to more useful, for year to tinyInt and etc.
-GetMaximumNumberOfFreeDays functions can be better written with grouped months, less loops, etc.
+- Use foreign keys to countries and other tables because it is same data.
+- Implement better unit tests.
+- SQL write stored procedures for updates, and update values if not found for countries.
+- SQL table column types could be changed, to more useful, for year to tinyInt and etc.
+- GetMaximumNumberOfFreeDays functions can be better written with grouped months, less loops, etc.
+
+My worst parts is that I don't know Docker a lot and how to work with. :(
 
 ## License
 
