@@ -80,7 +80,7 @@ namespace RequestsForData.Library
                                 holidaysData.SetHolidays(countryCode, year, month, day, nameOrigin, nameEng, holidayType);
                             }
                         }
-
+                        //cia blogai reikia perdaryti kad butu is SQL gaunama
                         IEnumerable<IGrouping<dynamic, dynamic>> groupedByMonth = holidaysData.GetHolidays(countryCode, year).GroupBy(h => h.Month);
                         allHolidaysForYears = groupedByMonth as List<dynamic>;
                     }

@@ -25,6 +25,9 @@ TODO
 
 Use foreign keys to countries and other tables because it is same data.
 Implement better unit tests.
+SQL write stored procedures for updates, and update values if not found for countries.
+SQL table column types could be changed, to more useful, for year to tinyInt and etc.
+GetMaximumNumberOfFreeDays functions can be better written with grouped months, less loops, etc.
 
 ## License
 
