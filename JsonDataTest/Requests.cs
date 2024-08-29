@@ -174,11 +174,11 @@ namespace JsonDataTest
             for (int i = 1; i <= 7; i++)
             {
 
-                if (dates.First().AddDays(-i).DayOfWeek == DayOfWeek.Saturday || dates.First().AddDays(-i).DayOfWeek == DayOfWeek.Sunday)
+                if (dates.FirstOrDefault().AddDays(-i).DayOfWeek == DayOfWeek.Saturday || dates.FirstOrDefault().AddDays(-i).DayOfWeek == DayOfWeek.Sunday)
                 {
                     counter++;
                 }
-                else if(dates.Last().AddDays(i).DayOfWeek == DayOfWeek.Saturday || dates.Last().AddDays(i).DayOfWeek == DayOfWeek.Sunday)
+                else if(dates.LastOrDefault().AddDays(i).DayOfWeek == DayOfWeek.Saturday || dates.LastOrDefault().AddDays(i).DayOfWeek == DayOfWeek.Sunday)
                 {
                     counter++;
                 }

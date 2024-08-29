@@ -30,7 +30,7 @@ MSSQL server is used localy. Not implemented in Docker as it should be.
 - SQL write stored procedures for updating (Countries).
 - SQL table column types could be changed, to more useful, for year to tinyInt and etc.
 - GetMaximumNumberOfFreeDays functions can be better written with grouped months, less loops, etc.
-
+- Use Models to control and get proper data not just dynamic.
 
 ## License
 

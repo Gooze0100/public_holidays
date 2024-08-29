@@ -1,50 +1,25 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace RequestsForData.Library.Helpers
+﻿namespace RequestsForData.Library.Helpers
 {
     public class ExtractHolidayData
     {
-        private async Task<List<DateOnly>> GetListOfDates(string countryCode, string year)
-        {
-            JArray holidaysList = await GetAllHolidaysForYears(year, countryCode);
-            bool isYearParsed = Int32.TryParse(year, out int parsedYear);
-            List<DateOnly> parsedDates = new();
-
-            if (isYearParsed)
-            {
-                foreach (JToken item in holidaysList)
-                {
-                    parsedDates.Add(new DateOnly(parsedYear, (int)item["date"]["month"], (int)item["date"]["day"]));
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Year was not parsed from string.");
-            }
-
-            return parsedDates;
-        }
-
-
-        public async Task<List<int>> GetMaximumNumberOfFreeDaysInRows(List<DateOnly> listOfDatesToCheck, string year)
+        public int GetMaximumNumberOfFreeDaysInRows(List<DateOnly> listOfDatesToCheck, string year)
         {
             bool isYearParsed = Int32.TryParse(year, out int parsedYear);
-            List<DateOnly> parsedDates = listOfDatesToCheck;
             List<DateOnly> listOfDates = new();
 
             if (isYearParsed)
             {
-                for (int i = 0; i < parsedDates.Count; i++)
+                for (int i = 0; i < listOfDatesToCheck.Count; i++)
                 {
-                    int month = parsedDates[i].Month;
-                    int day = parsedDates[i].Day;
+                    int month = listOfDatesToCheck[i].Month;
+                    int day = listOfDatesToCheck[i].Day;
                     int monthAfter = 0;
                     int dayAfter = 0;
 
-                    if ((i + 1) < parsedDates.Count)
+                    if ((i + 1) < listOfDatesToCheck.Count)
                     {
-                        monthAfter = parsedDates[i + 1].Month;
-                        dayAfter = parsedDates[i + 1].Day;
+                        monthAfter = listOfDatesToCheck[i + 1].Month;
+                        dayAfter = listOfDatesToCheck[i + 1].Day;
                     }
 
                     if (monthAfter > 0)
@@ -55,7 +30,7 @@ namespace RequestsForData.Library.Helpers
                         {
                             if (new DateOnly(parsedYear, month, day + 1) == new DateOnly(parsedYear, monthAfter, dayAfter))
                             {
-                                listOfDates.Add(parsedDates[i]);
+                                listOfDates.Add(listOfDatesToCheck[i]);
                                 listOfDates.Add(new DateOnly(parsedYear, monthAfter, dayAfter));
 
                             }
@@ -97,15 +72,14 @@ namespace RequestsForData.Library.Helpers
             IOrderedEnumerable<DateOnly> dates = datesonly.OrderBy(x => x.Day);
             int maximumNumberOfFreeDaysPerYearInRow = dates.Count();
             int counter = 0;
-
+            
             for (int i = 1; i <= 7; i++)
             {
-
-                if (dates.First().AddDays(-i).DayOfWeek == DayOfWeek.Saturday || dates.First().AddDays(-i).DayOfWeek == DayOfWeek.Sunday)
+                if (dates.FirstOrDefault().AddDays(-i).DayOfWeek == DayOfWeek.Saturday || dates.FirstOrDefault().AddDays(-i).DayOfWeek == DayOfWeek.Sunday)
                 {
                     counter++;
                 }
-                else if (dates.Last().AddDays(i).DayOfWeek == DayOfWeek.Saturday || dates.Last().AddDays(i).DayOfWeek == DayOfWeek.Sunday)
+                else if (dates.LastOrDefault().AddDays(i).DayOfWeek == DayOfWeek.Saturday || dates.LastOrDefault().AddDays(i).DayOfWeek == DayOfWeek.Sunday)
                 {
                     counter++;
                 }
@@ -117,8 +91,7 @@ namespace RequestsForData.Library.Helpers
                 maximumNumberOfFreeDaysPerYearInRow += counter;
             }
 
-            return new List<int>() { maximumNumberOfFreeDaysPerYearInRow };
+            return maximumNumberOfFreeDaysPerYearInRow;
         }
-
     }
 }
