@@ -166,6 +166,21 @@ namespace RequestsForData.Library
 
         public async Task<Dictionary<string, string>> GetMaximumNumberOfFreeDays(string countryCode, string year)
         {
+
+            // First check in db if number exist
+            // second if not call function
+            // GetMaximumNumberOfFreeDaysInRows it will check in db for all holidays if it is available
+            // if not call GetAllHolidaysForYears and then use that data to get number and return
+
+
+
+
+
+
+
+
+
+
             int lastCounter = 0;
             int innerCounter = 0;
 

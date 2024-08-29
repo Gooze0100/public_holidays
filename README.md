@@ -12,6 +12,7 @@ It uses three endpoints for:
 ## Installation
 
 - Add MSSQL database "DefaultConnection" string to user secrets then Publish PublicHolidaysData project.
+- Install SQL server in Docker container.
 - Start the application in Docker.
 
 ## User Guide
@@ -24,13 +25,12 @@ MSSQL server is used localy. Not implemented in Docker as it should be.
 
 ## Guidlines for future improvements
 
-- Use foreign keys to countries and other tables because it is same data.
-- Implement better unit tests.
-- SQL write stored procedures for updates, and update values if not found for countries.
+- Use foreign keys for countries and other tables because it is same data.
+- Implement better unit tests. Unit smoke tests.
+- SQL write stored procedures for updating (Countries).
 - SQL table column types could be changed, to more useful, for year to tinyInt and etc.
 - GetMaximumNumberOfFreeDays functions can be better written with grouped months, less loops, etc.
 
-My worst parts is that I don't know Docker a lot and how to work with. :(
 
 ## License
 
