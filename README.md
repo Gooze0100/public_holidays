@@ -11,17 +11,17 @@ It uses four endpoints for:
 
 ## Installation
 
-- Add MSSQL database "DefaultConnection" string to user secrets in RequestForData.Library, then Publish PublicHolidaysData project.
+- Add MSSQL database "DefaultConnection" string to user secrets in RequestForData.Library, then publish PublicHolidaysData project.
 - Install SQL server in Docker container.
 - Start the application in Docker.
 
 ## User Guide
 
-In Swagger when application is deployes you can see four endpoints and what parameters to enter to get that data.
+In Swagger when application is deployes you can see four endpoints and what parameters to enter to get that data. Examples are writtten what data should be entered.
 
 ## Configuration
 
-MSSQL server is used localy. Not implemented in Docker as it should be.
+Change or add user secrets in RequestForData.Library "DefaultConnection" to connect to SQL server and publih PublicHolidaysData project.
 
 ## Guidlines for future improvements
 
@@ -35,3 +35,8 @@ MSSQL server is used localy. Not implemented in Docker as it should be.
 ## License
 
 MIT License
+
+## Learning part
+
+- Need to learn more about Docker.
+- Need to learn about cloud services quite a lot.
