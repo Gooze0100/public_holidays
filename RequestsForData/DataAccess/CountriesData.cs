@@ -1,5 +1,4 @@
 ﻿using RequestsForData.Library.Internal.DataAccess;
-using System.Diagnostics.Metrics;
 
 namespace RequestsForData.Library.DataAccess
 {
@@ -9,7 +8,6 @@ namespace RequestsForData.Library.DataAccess
         {
             SqlDataAccess sqlAccess = new();
 
-            // unit testing could benefit for this
             List<dynamic> output = sqlAccess.LoadData<dynamic>("dbo.spGetCountries", new {}, "DefaultConnection");
 
             return output;

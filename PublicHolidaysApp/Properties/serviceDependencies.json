@@ -3,6 +3,18 @@
     "secrets1": {
       "type": "secrets",
       "dynamicId": null
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:AzureSQL",
+      "dynamicId": null
+    },
+    "compute.appService1": {
+      "group": "connections",
+      "type": "compute.appService"
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }

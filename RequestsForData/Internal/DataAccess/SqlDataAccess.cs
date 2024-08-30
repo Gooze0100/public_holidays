@@ -15,24 +15,6 @@ namespace RequestsForData.Library.Internal.DataAccess
                 .AddUserSecrets<SqlDataAccess>()
                 .Build();
 
-            // Equivalent connection string:
-            // "User Id=<DB_USER>;Password=<DB_PASS>;Server=<INSTANCE_HOST>;Database=<DB_NAME>;"
-            SqlConnectionStringBuilder connString = new()
-            {
-
-                // Set Host to 'cloudsql' when deploying to App Engine Flexible environment
-                DataSource = config["DataSource"],
-                InitialCatalog = config["DB_NAME"],
-                UserID = config["DB_USER"],
-                Password = config["DB_PASS"],
-
-                // The Cloud SQL proxy provides encryption between the proxy and instance
-                Encrypt = false,
-            };
-            connString.Pooling = true;
-
-            //return connectionString;
-
             return config[connectionString];
         }
 

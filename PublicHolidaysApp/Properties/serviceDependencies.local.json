@@ -3,6 +3,23 @@
     "secrets1": {
       "type": "secrets.user",
       "dynamicId": null
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ServiceLinker/locations/westus/connectors/ConnectionStringsAzureSQL_C49C5F1DB8",
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/publicholidays/databases/publicholidays",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:AzureSQL",
+      "dynamicId": null
+    },
+    "compute.appService1": {
+      "group": "connections",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/publicholidays",
+      "type": "compute.appService.linux"
+    },
+    "apis1": {
+      "ignored": "True",
+      "type": "apis"
     }
   }
 }
