@@ -3,15 +3,6 @@
     "secrets1": {
       "type": "secrets",
       "dynamicId": null
-    },
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:PublicHoliday"
-    },
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:PublicHolidays",
-      "dynamicId": null
     }
   }
 }

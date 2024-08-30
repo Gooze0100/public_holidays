@@ -2,7 +2,7 @@
 
 This project was created with [ASP.NET](https://dotnet.microsoft.com/en-us/apps/aspnet) version of .NET 8.0.
 This app saves public holidays data from https://kayaposoft.com/enrico/ into SQL server.
-It uses three endpoints for:
+It uses four endpoints for:
 
 - countries list
 - grouped by a month holidays list for a given country and year
@@ -11,7 +11,7 @@ It uses three endpoints for:
 
 ## Installation
 
-- Add MSSQL database "DefaultConnection" string to user secrets then Publish PublicHolidaysData project.
+- Add MSSQL database "DefaultConnection" string to user secrets in RequestForData.Library, then Publish PublicHolidaysData project.
 - Install SQL server in Docker container.
 - Start the application in Docker.
 
@@ -26,7 +26,7 @@ MSSQL server is used localy. Not implemented in Docker as it should be.
 ## Guidlines for future improvements
 
 - Use foreign keys for countries and other tables because it is same data.
-- Implement better unit tests. Unit smoke tests.
+- Implement better unit tests. Unit smoke tests with selenium.
 - SQL write stored procedures for updating (Countries).
 - SQL table column types could be changed, to more useful, for year to tinyInt and etc.
 - GetMaximumNumberOfFreeDays functions can be better written with grouped months, less loops, etc.
