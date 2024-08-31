@@ -11,26 +11,25 @@ It uses four endpoints for:
 
 ## Installation
 
-- Add MSSQL database "DefaultConnection" string to user secrets in RequestForData.Library, then publish PublicHolidaysData project.
-- Install SQL server in Docker container.
-- Start the application in Docker.
+- Add MSSQL database "DefaultConnection" string to user secrets in RequestForData.Library, then publish PublicHolidaysData project using that same string.
+- Start the application.
 
 ## User Guide
 
-In Swagger when application is deployes you can see four endpoints and what parameters to enter to get that data. Examples are writtten what data should be entered.
+In Swagger when application is deployed you can see four endpoints and what parameters to enter to get data. Examples are writtten what data should be entered.
 
 ## Configuration
 
-Change or add user secrets in RequestForData.Library "DefaultConnection" to connect to SQL server and publih PublicHolidaysData project.
+Add user secrets in RequestForData.Library "DefaultConnection" to connect to SQL server and publish PublicHolidaysData project.
 
 ## Guidlines for future improvements
 
 - Use foreign keys for countries and other tables because it is same data.
 - Implement better unit tests. Unit smoke tests with selenium.
-- SQL write stored procedures for updating (Countries).
+- SQL write stored procedures for updating (Countries), not just wiping information.
 - SQL table column types could be changed, to more useful, for year to tinyInt and etc.
 - GetMaximumNumberOfFreeDays functions can be better written with grouped months, less loops, etc.
-- Use Models to control and get proper data not just dynamic.
+- Use Models to control and get proper data, not just dynamic type.
 
 ## License
 
@@ -39,4 +38,4 @@ MIT License
 ## Learning part
 
 - Need to learn more about Docker.
-- Need to learn about cloud services quite a lot.
+- Need to learn about cloud services.
