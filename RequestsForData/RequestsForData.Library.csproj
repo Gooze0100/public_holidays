@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>6cb12fa9-bde1-4e27-b03b-8e3f292e1f37</UserSecretsId>
+	<UserSecretsId>6cb12fa9-bde1-4e27-b03b-8e3f292e1f37</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,16 +26,6 @@
 
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\PublicHolidaysData\PublicHolidaysData.sqlproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Requests.cs">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Compile>
   </ItemGroup>
 
 </Project>

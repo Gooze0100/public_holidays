@@ -7,7 +7,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddJsonFile("appsettings.development.json");
 builder.Configuration.AddUserSecrets<Program>();
-WebApplication app = builder.Build();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -23,12 +23,12 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+WebApplication app = builder.Build();
 
-
-app.UseSwagger();
+app.UseSwagger(c => c.SerializeAsV2 = true);
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Public Holidays v1");
     options.RoutePrefix = string.Empty;
 });
 
@@ -92,4 +92,6 @@ app.MapGet("api/maximumNumberofFreeDays/country/{country}/year/{year}",
         return operation;
     });
 
+
+app.UseRouting();
 app.Run();

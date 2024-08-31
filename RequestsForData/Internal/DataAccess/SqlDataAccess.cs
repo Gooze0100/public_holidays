@@ -8,10 +8,10 @@ namespace RequestsForData.Library.Internal.DataAccess
 {
     internal class SqlDataAccess
     {
-        public string GetConnectionString(string connectionString)
+        private string GetConnectionString(string connectionString)
         {
             IConfigurationRoot config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
                 .AddUserSecrets<SqlDataAccess>()
                 .Build();
 

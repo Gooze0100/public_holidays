@@ -10,7 +10,7 @@ namespace RequestsForData.Library
         {
             CountriesData countriesData = new();
             List<dynamic> listOfCountries = countriesData.GetCountries();
-            
+
             if(listOfCountries.Count < 58)
             {
                 try
